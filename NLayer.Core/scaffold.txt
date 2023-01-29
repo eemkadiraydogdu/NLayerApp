@@ -1,0 +1,4 @@
+﻿Scaffold-DbContext -Connection "Server=LT0BILTEK0190\\SQLEXPRESS; Initial Catalog = OrderDb; -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Entities" -ContextDir "DB" -Context "AppDbContext" -NoPluralize -UseDatabaseNames -Force
+
+this.ChangeTracker.LazyLoadingEnabled = false;
+this.Database.SetCommandTimeout((int)TimeSpan.FromMinutes(3).TotalSeconds);
