@@ -14,10 +14,10 @@ namespace NLayer.Repository.Repositories
         protected readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public GenericRepository(AppDbContext context, DbSet<T> dbSet)
+        public GenericRepository(AppDbContext context)
         {
             _context = context;
-            _dbSet = dbSet;
+            _dbSet = _context.Set<T>();
         }
 
 
@@ -35,6 +35,7 @@ namespace NLayer.Repository.Repositories
         {
            return await _dbSet.AnyAsync(expression);
         }
+
 
         public IQueryable<T> GetAll()
         {
