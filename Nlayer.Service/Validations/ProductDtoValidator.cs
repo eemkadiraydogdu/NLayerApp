@@ -1,15 +1,9 @@
 ﻿using FluentValidation;
 using NLayer.Core.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nlayer.Service.Validations
 {
-    public class ProductDtoValidator:AbstractValidator<ProductDto>
+    public class ProductDtoValidator : AbstractValidator<ProductDto>
     {
         public ProductDtoValidator()
         {

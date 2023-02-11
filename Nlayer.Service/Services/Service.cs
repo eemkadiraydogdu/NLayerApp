@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Nlayer.Service.Exceptions;
+using NLayer.Core.Models;
 using NLayer.Core.Repositories;
 using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
@@ -12,11 +13,19 @@ namespace Nlayer.Service.Services
     {
         private readonly IGenericRepository<T> _repository;
         private readonly IUnitOfWork _unitOfWork;
+        private IGenericRepository<Category> repository;
+        private IUnitOfWork unitOfWork;
 
         public Service(IUnitOfWork unitOfWork, IGenericRepository<T> repository)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
+        }
+
+        public Service(IGenericRepository<Category> repository, IUnitOfWork unitOfWork)
+        {
+            this.repository = repository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<T> AddAsync(T entity)
@@ -45,8 +54,8 @@ namespace Nlayer.Service.Services
 
         public async Task<T> GetByIdAsync(int id)
         {
-            var hasProduct= await _repository.GetByIdAsync(id);
-            if(hasProduct==null)
+            var hasProduct = await _repository.GetByIdAsync(id);
+            if (hasProduct == null)
             {
                 throw new NotFoundException($"{typeof(T).Name}({id}) not found");
             }
@@ -56,7 +65,7 @@ namespace Nlayer.Service.Services
         public async Task RemoveAsync(T entity)
         {
             _repository.Remove(entity);
-            await _unitOfWork.CommitAsync();    
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task RemoveRangeAsync(IEnumerable<T> entities)
