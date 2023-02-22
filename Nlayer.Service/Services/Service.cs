@@ -13,8 +13,6 @@ namespace Nlayer.Service.Services
     {
         private readonly IGenericRepository<T> _repository;
         private readonly IUnitOfWork _unitOfWork;
-        //private IGenericRepository<Category> repository;
-        //private IUnitOfWork unitOfWork;
 
         public Service(IUnitOfWork unitOfWork, IGenericRepository<T> repository)
         {
@@ -22,11 +20,6 @@ namespace Nlayer.Service.Services
             _repository = repository;
         }
 
-        //public Service(IGenericRepository<Category> repository, IUnitOfWork unitOfWork)
-        //{
-        //    this.repository = repository;
-        //    this.unitOfWork = unitOfWork;
-        //}
 
         public async Task<T> AddAsync(T entity)
         {
