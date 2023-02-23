@@ -18,28 +18,16 @@ namespace NLayer.Repository
 
         public override int SaveChanges()
         {
-            foreach (var item in ChangeTracker.Entries())
-            {
-                if (item.Entity is BaseEntity entityReference)
-                {
-                    switch (item.Entity)
-                    {
-                        case EntityState.Added:
-                            {
-                                entityReference.CreatedDate = DateTime.Now;
-                                break;
-                            }
-                        case EntityState.Modified:
-                            {
-                                entityReference.UpdateDate = DateTime.Now;
-                                break;
-                            }
-                    }
-                }
-            }
+            UpdateChangeTracker();
             return base.SaveChanges();
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            UpdateChangeTracker();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        public void UpdateChangeTracker()
         {
             foreach (var item in ChangeTracker.Entries())
             {
@@ -49,19 +37,19 @@ namespace NLayer.Repository
                     {
                         case EntityState.Added:
                             {
+                                Entry(entityReference).Property(x => x.UpdateDate).IsModified = false;
                                 entityReference.CreatedDate = DateTime.Now;
                                 break;
                             }
                         case EntityState.Modified:
                             {
-                                Entry(entityReference).Property(x=>x.CreatedDate).IsModified= false;
+                                Entry(entityReference).Property(x => x.CreatedDate).IsModified = false;
                                 entityReference.UpdateDate = DateTime.Now;
                                 break;
                             }
                     }
                 }
             }
-            return base.SaveChangesAsync(cancellationToken);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
